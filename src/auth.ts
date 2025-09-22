@@ -3,7 +3,10 @@ import { AuthOptions } from 'next-auth';
 import CredentialsProvider from "next-auth/providers/credentials";
 
 import { jwtDecode } from "jwt-decode";
-
+interface MyTokenPayload {
+  id: string;
+  email?: string;
+}
 export const authOptions: AuthOptions = {
     providers: [
         CredentialsProvider({
@@ -25,7 +28,8 @@ export const authOptions: AuthOptions = {
                 console.log('Response status:', response.status);
                 console.log(payload);
                 if (payload.message === "success") {
-                    const { id }: { id: string } = jwtDecode(payload.token);
+                    // const { id }: { id:string } = jwtDecode(payload.token);
+                    const { id } = jwtDecode<MyTokenPayload>(payload.token);
                     // console.log(id); 
                     return {
                         id: id,
