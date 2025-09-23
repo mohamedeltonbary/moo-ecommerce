@@ -31,7 +31,7 @@
 //                     return {
 //                         id: id,
 //                         user: payload.user,
-//                         token: payload.token,
+//                         token: payload.token
 //                     };
 //                 }
 //                 throw new Error(payload.message || "Invalid credentials");
@@ -60,19 +60,19 @@
 // }
 
 
-import { AuthOptions } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import { jwtDecode } from "jwt-decode";
 
-// تعريف واجهة الـ payload اللي جاي من التوكن
-interface MyPayload {
-    id: string;
-}
+
+
+import { AuthOptions } from 'next-auth';
+import CredentialsProvider from "next-auth/providers/credentials";
+
+// هنا استخدمنا named import بدل default
+import { jwtDecode } from "jwt-decode";
 
 export const authOptions: AuthOptions = {
     providers: [
         CredentialsProvider({
-            name: "Credentials",
+            name: 'Credentials',
             credentials: {
                 email: { label: "Username", type: "text", placeholder: "jsmith" },
                 password: { label: "Password", type: "password" },
@@ -86,41 +86,40 @@ export const authOptions: AuthOptions = {
                     }),
                     headers: { "Content-Type": "application/json" },
                 });
-
                 const payload = await response.json();
-                console.log("Response status:", response.status);
+                console.log('Response status:', response.status);
                 console.log(payload);
 
                 if (payload.message === "success") {
-                    // حددنا النوع هنا لتجنب خطأ الـ id
-                    const { id } = jwtDecode<MyPayload>(payload.token);
+                    // هنا استخدمنا any عادي
+                    const { id }: { id: string } = jwtDecode(payload.token) as any;
 
                     return {
                         id: id,
                         user: payload.user,
-                        token: payload.token,
-                    };
+                        token: payload.token
+                    } as any;
                 }
+
                 throw new Error(payload.message || "Invalid credentials");
             },
         }),
     ],
-
     callbacks: {
         async jwt({ token, user }) {
             if (user) {
-                token.user = user.user;
-                token.token = user.token;
+                (token as any).user = (user as any).user;
+                (token as any).token = (user as any).token;
             }
             return token;
         },
 
         async session({ session, token }) {
             if (token) {
-                session.user = token.user;
+                (session as any).user = (token as any).user;
             }
             return session;
-        },
-    },
+        }
+    }
 };
 
