@@ -141,6 +141,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 // import { jwtDecode } from "jwt-decode";
 import { jwtDecode, JwtPayload } from "jwt-decode";
+import { getMyToken } from './utilites/token';
 interface MyToken extends JwtPayload {
   id: string;
 }
@@ -148,14 +149,15 @@ interface MyToken extends JwtPayload {
 
 export async function getuserorder() {
   const token = await getMyToken();
-  const { id } = jwtDecode<MyToken>(token);
 
   if (!token) {
     throw new Error("not found");
   }
 
-  return id;
+  const decoded = jwtDecode<MyToken>(token);
+  return decoded.id;
 }
+
 
 export const authOptions: AuthOptions = {
     providers: [
