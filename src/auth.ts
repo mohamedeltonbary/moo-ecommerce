@@ -1,66 +1,66 @@
-//  الاصل بتاعى
-// import { AuthOptions } from 'next-auth';
-// import CredentialsProvider from "next-auth/providers/credentials";
 
-// import { jwtDecode } from "jwt-decode";
+import { AuthOptions } from 'next-auth';
+import CredentialsProvider from "next-auth/providers/credentials";
 
-
+import { jwtDecode } from "jwt-decode";
 
 
-// export const authOptions: AuthOptions = {
-//     providers: [
-//         CredentialsProvider({
-//             name: 'Credentials',
-//             credentials: {
-//                 email: { label: "Username", type: "text", placeholder: "jsmith" },
-//                 password: { label: "Password", type: "password" },
-//             },
-//             authorize: async (credentials) => {
-//                 const response = await fetch(`${process.env.API}/auth/signin`, {
-//                     method: "POST",
-//                     body: JSON.stringify({
-//                         email: credentials?.email,
-//                         password: credentials?.password,
-//                     }),
-//                     headers: { "Content-Type": "application/json" },
-//                 });
-//                 const payload = await response.json();
-//                 console.log('Response status:', response.status);
-//                 console.log(payload);
-//                 if (payload.message === "success") {
-//                     const { id }: { id:string } = jwtDecode(payload.token);
 
-//                     // console.log(id); 
-//                     return {
-//                         id: id,
-//                         user: payload.user,
-//                         token: payload.token
-//                     };
-//                 }
-//                 throw new Error(payload.message || "Invalid credentials");
 
-//                 //  return ;
-//             },
-//         }),
-//     ],
-//     callbacks: {
-//         async jwt({ token, user }) {
-//             if (user) {
-//                 token.user = user?.user
-//                 token.token = user?.token
-//             }
-//             return token
-//         },
+export const authOptions: AuthOptions = {
+    providers: [
+        CredentialsProvider({
+            name: 'Credentials',
+            credentials: {
+                email: { label: "Username", type: "text", placeholder: "jsmith" },
+                password: { label: "Password", type: "password" },
+            },
+            authorize: async (credentials) => {
+                const response = await fetch(`${process.env.API}/auth/signin`, {
+                    method: "POST",
+                    body: JSON.stringify({
+                        email: credentials?.email,
+                        password: credentials?.password,
+                    }),
+                    headers: { "Content-Type": "application/json" },
+                });
+                const payload = await response.json();
+                console.log('Response status:', response.status);
+                console.log(payload);
+                if (payload.message === "success") {
+                    const { id }: { id:string } = jwtDecode(payload.token);
 
-//           async session({ session, token }) {
-//             if (token) {
-//                 session.user = token?.user
+                    // console.log(id); 
+                    return {
+                        id: id,
+                        user: payload.user,
+                        token: payload.token
+                    };
+                }
+                throw new Error(payload.message || "Invalid credentials");
 
-//             }
-//             return session
-//         }
-//     }
-// }
+                //  return ;
+            },
+        }),
+    ],
+    callbacks: {
+        async jwt({ token, user }) {
+            if (user) {
+                token.user = user?.user
+                token.token = user?.token
+            }
+            return token
+        },
+
+          async session({ session, token }) {
+            if (token) {
+                session.user = token?.user
+
+            }
+            return session
+        }
+    }
+}
 
 
 
@@ -136,81 +136,72 @@
 
 
 // نسخه ع كلام م عمرو لى هينتيرفاس
-import { AuthOptions } from 'next-auth';
-import CredentialsProvider from "next-auth/providers/credentials";
+// import { AuthOptions } from 'next-auth';
+// import CredentialsProvider from "next-auth/providers/credentials";
 
-// import { jwtDecode } from "jwt-decode";
-import { jwtDecode, JwtPayload } from "jwt-decode";
-import { getMyToken } from './utilites/token';
-interface MyToken extends JwtPayload {
-  id: string;
-}
+// import { jwtDecode, JwtPayload } from "jwt-decode";
+// import { getMyToken } from './utilites/token';
+// interface MyToken extends JwtPayload {
+//   id: string;
+// }
+// export async function getuserorder() {
+//   const token = await getMyToken();
+//   if (!token) {
+//     throw new Error("not found");
+//   }
+//   const { id } = jwtDecode<MyToken>(token);
+//   return id;
+// }
+// export const authOptions: AuthOptions = {
+//   providers: [
+//     CredentialsProvider({
+//       name: 'Credentials',
+//       credentials: {
+//         email: { label: "Username", type: "text", placeholder: "jsmith" },
+//         password: { label: "Password", type: "password" },
+//       },
+//       authorize: async (credentials) => {
+//         const response = await fetch(`${process.env.API}/auth/signin`, {
+//           method: "POST",
+//           body: JSON.stringify({
+//             email: credentials?.email,
+//             password: credentials?.password,
+//           }),
+//           headers: { "Content-Type": "application/json" },
+//         });
+//         const payload = await response.json();
+//         console.log('Response status:', response.status);
+//         console.log(payload);
+//         if (payload.message === "success") {
+//           const { id }: { id: string } = jwtDecode(payload.token);
+//           // console.log(id); 
+//           return {
+//             id: id,
+//             user: payload.user,
+//             token: payload.token
+//           };
+//         }
+//         throw new Error(payload.message || "Invalid credentials");
+       
+//       },}),],
+//   callbacks: {
+//     async jwt({ token, user }) {
+//       if (user) {
+//         token.user = user?.user
+//         token.token = user?.token
+//       }
+//       return token
+//     },
 
-export async function getuserorder() {
-  const token = await getMyToken();
-  
-  if (!token) {
-    throw new Error("not found");
-  }
-  const { id } = jwtDecode<MyToken>(token);
+//     async session({ session, token }) {
+//       if (token) {
+//         session.user = token?.user
 
-  return id;
-}
-
-export const authOptions: AuthOptions = {
-  providers: [
-    CredentialsProvider({
-      name: 'Credentials',
-      credentials: {
-        email: { label: "Username", type: "text", placeholder: "jsmith" },
-        password: { label: "Password", type: "password" },
-      },
-      authorize: async (credentials) => {
-        const response = await fetch(`${process.env.API}/auth/signin`, {
-          method: "POST",
-          body: JSON.stringify({
-            email: credentials?.email,
-            password: credentials?.password,
-          }),
-          headers: { "Content-Type": "application/json" },
-        });
-        const payload = await response.json();
-        console.log('Response status:', response.status);
-        console.log(payload);
-        if (payload.message === "success") {
-          const { id }: { id: string } = jwtDecode(payload.token);
-
-          // console.log(id); 
-          return {
-            id: id,
-            user: payload.user,
-            token: payload.token
-          };
-        }
-        throw new Error(payload.message || "Invalid credentials");
-
-        //  return ;
-      },
-    }),
-  ],
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.user = user?.user
-        token.token = user?.token
-      }
-      return token
-    },
-
-    async session({ session, token }) {
-      if (token) {
-        session.user = token?.user
-
-      }
-      return session
-    }
-  }
-}
+//       }
+//       return session
+//     }
+//   }
+// }
 
 
 

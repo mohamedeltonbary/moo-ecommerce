@@ -8,13 +8,20 @@ type Product = {
   price: number;
   imageCover: string;
 };
-
+  
 const ProductsPage = async () => {
   const products: Product[] = await getAllProducts();
 
   return (
     <div className="md:w-[80%] mx-auto p-5">
-      <h1 className="text-3xl font-bold mb-6 text-center text-indigo-600">
+      <h1
+        className="text-3xl mb-6 text-center  pb-2"
+        style={{
+          color: "rgb(79, 167, 79)",
+          fontFamily: "Segoe UI Semibold, sans-serif",
+          fontWeight: 600, // Semibold
+        }}
+      >
         All Products
       </h1>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">

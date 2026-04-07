@@ -1,122 +1,212 @@
-
-"use client"
-import React, { useContext } from 'react'
-import logo from "./../../../../public/slider/download.jpeg"
-import logo2 from "./../../../../public/slider/images (2).jpeg"
-import logo3 from "./../../../../public/freshcart-logo.svg"
-import Link from 'next/link'
-import Image from 'next/image'
-import { signOut, useSession } from "next-auth/react"
-import { Badge } from '@/components/ui/badge'
-import { CartContext } from '@/context/cartcontext'
-
+"use client";
+import React, { useContext } from "react";
+import logo from "./../../../../public/slider/download.jpeg";
+import logo2 from "./../../../../public/slider/images (2).jpeg";
+import logo3 from "./../../../../public/freshcart-logo.svg";
+import Link from "next/link";
+import Image from "next/image";
+import { signOut, useSession } from "next-auth/react";
+import { Badge } from "@/components/ui/badge";
+import { CartContext } from "@/context/cartcontext";
+import ActiveLink from "../ActiveLink/ActiveLink";
+// import { usePathname } from 'next/navigation'
+import { useActivePath } from "../ActiveLink/useActivePath";
 const Navbar = () => {
-    const { numOfCartItems } = useContext(CartContext);
-    //  const x = useSession()
-    //     console.log(x); 
-    const { data: session, status } = useSession()
-    return (
-        <div>
-            <div className='bg-blue-100 py-4'>
-                {/* right nav */}
-                <div className=' w-full md:w-[80%] mx-auto flex justify-between  flex-col md:flex-row gap-4 text-center items-center '>
-                    <ul className='flex flex-col md:flex-row gap-4 text-center  items-center'>
-                        {status === "authenticated" && <>
-                            <li>
-                                <Link href="/">
-                                    {/* <img src={logo} alt="photo"/> */}
-                                    <Image src={logo3} alt="photo" />
-                                </Link>
-                            </li>
-                            {/* <li>
-                                <Link href="home">
-                                    <h1>Home</h1>
-                                </Link>
-                            </li> */}
-                     
+  const { numOfCartItems } = useContext(CartContext);
+  // const pathname = usePathname()
+  //  const x = useSession()
+  //     console.log(x);
+  const { data: session, status } = useSession();
 
-                            <li >
-                                <Link href="cart" className="flex flex-col items-center">
-                                    <h1 className="relative">
-                                        Cart
-                                        <Badge className="absolute -top-4 -right-4">
-                                            {numOfCartItems}
-                                        </Badge>
-                                    </h1>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="products">
-                                    <h1>Products</h1>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/allorders">
-                                    <h1>All Orders</h1>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="categories">
-                                    <h1>Categories</h1>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="brands">
-                                    <h1>Brands</h1>
-                                </Link>
-                            </li>
-                        </>}
-                    </ul>
+  const { checkActive } = useActivePath();
+  if (status === "loading") return null;
+  return (
+    // <div >
+    <div className="bg-blue-100 py-4 sticky top-0 z-50 shadow-md">
+      {/* right nav */}
+      <div className=" w-full md:w-[80%] mx-auto flex justify-between  flex-col md:flex-row gap-4 text-center items-center ">
+        <ul className="flex flex-col md:flex-row gap-4 text-center  items-center">
+          {status === "authenticated" && (
+            <>
+              <li>
+                <Link href="/">
+                  {/* <img src={logo} alt="photo"/> */}
+                  <Image src={logo3} alt="photo" />
+                </Link>
+              </li>
+              {/* home */}
+              <li className="group relative px-2 py-0.5">
+                <Link
+                  href="/"
+                  className={`transition-colors duration-300 ${checkActive("/") ? "text-blue-600" : "text-black hover:text-blue-500"}`}
+                >
+                  <h1>Home</h1>
+                </Link>
+                <span
+                  className={`absolute left-0 -bottom-1 h-[2px] bg-blue-500 transition-all duration-300 origin-left
+                    ${checkActive("/") ? "w-full scale-x-100" : "w-0 group-hover:w-full"}`}
+                ></span>
+              </li>
 
-                    {status === "unauthenticated" && <>
-                        <Image src={logo2} width={50} height={50} alt="photo" className='rounded-full' />
+              <li className="group relative px-2 py-0.5">
+                <Link
+                  href="/cart"
+                  className={`flex items-center gap-1 transition-colors duration-300 ${
+                    checkActive("/cart")
+                      ? "text-blue-600"
+                      : "text-black hover:text-blue-500"
+                  }`}
+                >
+                  Cart
+                  {/* 👇 الـ badge */}
+                  {numOfCartItems > 0 && (
+                    <span className="bg-red-500 text-white text-xs px-1.5 rounded-full absolute -top-2 -right-2">
+                      {numOfCartItems}
+                    </span>
+                  )}
+                </Link>
 
-                    </>}
+                <span
+                  className={`absolute left-0 -bottom-1 h-[2px] bg-blue-500 transition-all duration-300 origin-left
+                 ${
+                   checkActive("/cart")
+                     ? "w-full scale-x-100"
+                     : "w-0 group-hover:w-full"
+                 }`}
+                ></span>
+              </li>
 
-                    {status === "loading" && <>Loading...</>}
+              <li className="group relative px-2 py-0.5 ">
+                <Link
+                  href="/products"
+                  className={`transition-colors duration-300
+                         ${
+                           checkActive("/products")
+                             ? "text-blue-600"
+                             : "text-black hover:text-blue-500"
+                         }`}
+                >
+                  {/* <h1 className="relative">Products</h1> */}
+                  Products
+                </Link>
 
-                    {/* lift nav */}
-                    <div className='flex flex-col md:flex-row gap-3 text-center items-center '  >
-                        <div>
-                            <i className='fab  fa-facebook-f mx-2'></i>
-                            <i className='fab  fa-youtube mx-2'></i>
-                            <i className='fab  fa-twitter mx-2'></i>
-                            <i className="fab fa-whatsapp mx-2"></i>
-                            <i className="fab fa-instagram mx-2"></i>
+                <span
+                  className={`absolute left-0 -bottom-1 h-[2px] bg-blue-500 transition-all duration-300 origin-left
+                    ${checkActive("/products") ? "w-full scale-x-100" : "w-0 group-hover:w-full"}
+                    `}
+                ></span>
+              </li>
+              {/* alloredrs */}
+              <li className="group relative px-2 py-0.5">
+                <Link
+                  href="/allorders"
+                  className={`transition-colors duration-300
+                         ${
+                           checkActive("/allorders")
+                             ? "text-blue-600"
+                             : "text-black hover:text-blue-500"
+                         }`}
+                >
+                  <h1>All Orders</h1>
+                </Link>
+                <span
+                  className={`absolute left-0 -bottom-1 h-[2px] bg-blue-500 transition-all duration-300 origin-left
+                    ${checkActive("/allorders") ? "w-full scale-x-100" : "w-0 group-hover:w-full"}
+                    `}
+                ></span>
+                {/* Categories */}
+              </li>
+              <li className="group relative px-2 py-0.5">
+                <Link
+                  href="/categories"
+                  className={`transition-colors duration-300
+                         ${
+                           checkActive("/categories")
+                             ? "text-blue-600"
+                             : "text-black hover:text-blue-500"
+                         }`}
+                >
+                  <h1>Categories</h1>
+                </Link>
+                <span
+                  className={`absolute left-0 -bottom-1 h-[2px] bg-blue-500 transition-all duration-300 origin-left
+                    ${checkActive("/categories") ? "w-full scale-x-100" : "w-0 group-hover:w-full"}
+                    `}
+                ></span>
+              </li>
+              {/* brands */}
+              <li className="group relative px-2 py-0.5">
+                <Link
+                  href="/brands"
+                  className={`transition-colors duration-300
+                         ${
+                           checkActive("/brands")
+                             ? "text-blue-600"
+                             : "text-black hover:text-blue-500"
+                         }`}
+                >
+                  <h1>Brands</h1>
+                </Link>
+                <span
+                  className={`absolute left-0 -bottom-1 h-[2px] bg-blue-500 transition-all duration-300 origin-left
+                    ${checkActive("/brands") ? "w-full scale-x-100" : "w-0 group-hover:w-full"}
+                    `}
+                ></span>
+              </li>
+            </>
+          )}
+        </ul>
 
-                        </div>
-                        {status === "unauthenticated" && <>
-                            <div>
-                                <Link href="/login">
-                                    Login
-                                </Link>
-                            </div>
-                            <div>
-                                <Link href="/register">
-                                    Register
-                                </Link>
-                            </div>
+        {status === "unauthenticated" && (
+          <>
+            <Image
+              src={logo2}
+              width={50}
+              height={50}
+              alt="photo"
+              className="rounded-full"
+            />
+          </>
+        )}
 
-                        </>}
+        {status === "loading" && <>Loading...</>}
 
-                        {status === "authenticated" && <>
-                            <div>
-                                <button className="cursor-pointer " onClick={() => {
-                                    signOut({
-                                        callbackUrl: "/login"
-                                    })
-                                }}>
-                                    logout
-                                </button>
-                            </div>
-                        </>}
+        {/* lift nav */}
+        <div className="flex flex-col md:flex-row gap-3 text-center items-center ">
+          {status === "unauthenticated" && (
+            <>
+              <div className="flex gap-3">
+                <Link href="/login">
+                  <button className="px-3 py-1 rounded-md border border-green-400 text-green-500 hover:bg-green-500 hover:text-white transition-all duration-300 cursor-pointer">
+                    Login
+                  </button>
+                </Link>
+                <Link href="/register">
+                  <button className="px-3 py-1 rounded-md border border-blue-400 text-blue-500 hover:bg-blue-500 hover:text-white transition-all duration-300 cursor-pointer">
+                    Register
+                  </button>
+                </Link>
+              </div>
+            </>
+          )}
 
-                    </div>
-                </div>
-
-            </div>
+          {status === "authenticated" && (
+            <>
+              <button
+                className="px-3 py-1 rounded-md border border-red-400 text-red-500 hover:bg-red-500 hover:text-white transition-all duration-300 cursor-pointer"
+                onClick={() => {
+                  signOut({ callbackUrl: "/login" });
+                }}
+              >
+                Logout
+              </button>
+            </>
+          )}
         </div>
-    )
-}
+      </div>
+    </div>
+    // </div>
+  );
+};
 
-export default Navbar   
+export default Navbar;

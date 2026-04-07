@@ -41,9 +41,6 @@ const HomeCard = ({ product }: { product: Product }) => {
                         </CardFooter>
                     </Link>
                     <div className="flex justify-center -mb-4">
-                        {/* <button className="w-[90%] flex items-center justify-center bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition">
-                            Add to Cart
-                        </button> */}
                         <AddBtnCart id={product.id} />
                     </div>
                 </Card>

@@ -5,6 +5,7 @@ import Navbar from "./_component/Navbar/Navbar";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { Toaster } from "sonner";
 import Providers from "./../provider";
+import Footer from "./Footer/Footer";
 
 
 
@@ -30,6 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -37,6 +39,7 @@ export default function RootLayout({
           <Toaster />
           <Navbar />
           {children}
+          <Footer/>
         </Providers>
       </body>
     </html>

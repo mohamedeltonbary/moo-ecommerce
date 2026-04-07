@@ -1,4 +1,3 @@
-
 "use client";
 import React, { use } from "react";
 import { useForm } from "react-hook-form";
@@ -19,10 +18,6 @@ import axios from "axios";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-
-
-
-
 const Register = () => {
   const router = useRouter();
   const form = useForm<RegisterSchemaType>({
@@ -38,30 +33,40 @@ const Register = () => {
 
   async function handleSubmit(values: RegisterSchemaType) {
     try {
-      const { data } = await axios.post("https://ecommerce.routemisr.com/api/v1/auth/signup", values)
+      const { data } = await axios.post(
+        "https://ecommerce.routemisr.com/api/v1/auth/signup",
+        values,
+      );
       console.log(data);
-      toast.success(data.message,{
-        position:'top-center',
-        duration:2000
-      })
+      toast.success(data.message, {
+        position: "top-center",
+        duration: 2000,
+        style: {
+          background: "#22c55e",
+          color: "#fff",
+        },
+      });
 
-      router.push("/login")
-    }
-    catch (error) {
-      toast.error(error.response.data.message,{
-        position:'top-center',
-        duration:2000
-      })
-
-
+      router.push("/login");
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Something went wrong", {
+        position: "top-center",
+        duration: 2000,
+        style: {
+          background: "#ef4444",
+          color: "#fff",
+        },
+      });
     }
   }
 
   return (
     <div className="w-full md:w-[80%]  mx-auto my-10 p-6 bg-white rounded-md shadow-lg">
-      <h1 className="text-2xl font-bold mb-6  text-gray-800">
-        Register Now:
+      {/* <h1 className="text-3xl font-bold mb-2 text-orange-700"> */}
+      <h1 className="text-2xl font-bold text-lime-600 tracking-tight mb-1">
+        Create Account
       </h1>
+      <p className="text-gray-500 mb-6">Enter your details to get started</p>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
@@ -72,7 +77,12 @@ const Register = () => {
               <FormItem>
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input type="text" placeholder="" {...field} />
+                  <Input
+                    type="text"
+                    placeholder=""
+                    {...field}
+                    className="h-9"
+                  />
                 </FormControl>
                 <FormDescription></FormDescription>
                 <FormMessage />
@@ -84,9 +94,14 @@ const Register = () => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>email</FormLabel>
+                <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input type="email" placeholder="" {...field} />
+                  <Input
+                    type="email"
+                    placeholder=""
+                    {...field}
+                    className="h-9"
+                  />
                 </FormControl>
                 <FormDescription></FormDescription>
                 <FormMessage />
@@ -98,9 +113,14 @@ const Register = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>password</FormLabel>
+                <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input type="password" placeholder="" {...field} />
+                  <Input
+                    type="password"
+                    placeholder=""
+                    {...field}
+                    className="h-9"
+                  />
                 </FormControl>
                 <FormDescription></FormDescription>
                 <FormMessage />
@@ -112,9 +132,14 @@ const Register = () => {
             name="rePassword"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>rePassword</FormLabel>
+                <FormLabel>Confirm Password</FormLabel>
                 <FormControl>
-                  <Input type="password" placeholder="" {...field} />
+                  <Input
+                    type="password"
+                    placeholder=""
+                    {...field}
+                    className="h-9"
+                  />
                 </FormControl>
                 <FormDescription></FormDescription>
                 <FormMessage />
@@ -126,9 +151,9 @@ const Register = () => {
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>phone</FormLabel>
+                <FormLabel>Phone</FormLabel>
                 <FormControl>
-                  <Input type="tel" placeholder="" {...field} />
+                  <Input type="tel" placeholder="" {...field} className="h-9" />
                 </FormControl>
                 <FormDescription></FormDescription>
                 <FormMessage />
@@ -139,7 +164,7 @@ const Register = () => {
           <div className="flex justify-end">
             <button
               type="submit"
-              className="bg-lime-600 text-white py-2 px-4 rounded hover:bg-lime-800"
+              className="bg-lime-600 text-white py-2.5 px-5 rounded-md font-medium hover:bg-lime-700 transition-colors duration-300 cursor-pointer"
             >
               Register
             </button>
@@ -150,6 +175,4 @@ const Register = () => {
   );
 };
 
-
 export default Register;
-

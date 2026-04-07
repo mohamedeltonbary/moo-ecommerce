@@ -3,6 +3,9 @@
 /* 
 ---break--- */
 @custom-variant dark (&:is(.dark *));
+.font-heading {
+  font-family: "Miranda Sans", sans-serif;
+}
 
 @theme inline {
   --color-background: var(--background);
