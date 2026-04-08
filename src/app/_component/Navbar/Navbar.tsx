@@ -1,22 +1,24 @@
 "use client";
-import React, { useContext } from "react";
-import logo from "./../../../../public/slider/download.jpeg";
+// import React, { useContext } from "react";
 import logo2 from "./../../../../public/slider/images (2).jpeg";
 import logo3 from "./../../../../public/freshcart-logo.svg";
 import Link from "next/link";
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
-import { Badge } from "@/components/ui/badge";
-import { CartContext } from "@/context/cartcontext";
-import ActiveLink from "../ActiveLink/ActiveLink";
+// import { CartContext } from "@/context/cartcontext";
 // import { usePathname } from 'next/navigation'
+
+import React from "react";
+import { useCartContext } from "@/context/cartcontext";
 import { useActivePath } from "../ActiveLink/useActivePath";
 const Navbar = () => {
-  const { numOfCartItems } = useContext(CartContext);
+  // const { numOfCartItems } = useContext(CartContext);
+  const { numOfCartItems } = useCartContext();
   // const pathname = usePathname()
   //  const x = useSession()
   //     console.log(x);
-  const { data: session, status } = useSession();
+  // const { data: session, status } = useSession();
+  const { status } = useSession();
 
   const { checkActive } = useActivePath();
   if (status === "loading") return null;
@@ -169,7 +171,7 @@ const Navbar = () => {
           </>
         )}
 
-        {status === "loading" && <>Loading...</>}
+        {/* {status === "loading" && <>Loading...</>} */}
 
         {/* lift nav */}
         <div className="flex flex-col md:flex-row gap-3 text-center items-center ">

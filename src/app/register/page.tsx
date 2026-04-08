@@ -49,7 +49,15 @@ const Register = () => {
 
       router.push("/login");
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Something went wrong", {
+      let message = "Something went wrong";
+
+      if (axios.isAxiosError(error)) {
+        message = error.response?.data?.message || error.message;
+      } else if (error instanceof Error) {
+        message = error.message;
+      }
+
+      toast.error(message, {
         position: "top-center",
         duration: 2000,
         style: {

@@ -5,8 +5,13 @@ import React from "react";
 
 const AllOrder = async () => {
   // نفترض أن getuserorder راجع كائن فيه data من نوع Orders
-  const response: { data: Orders } = await getuserorder();
-  const orders: Orders = response.data;
+  // const response: { data: Orders } = await getuserorder();
+  // const orders: Orders = response.data;
+const orders: Orders = await getuserorder();
+
+if (!orders || orders.length === 0) {
+  return <div className="text-center mt-10">No orders found</div>;
+}
 
   console.log("orders array:", orders);
 

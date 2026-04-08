@@ -1,25 +1,32 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { CartContext } from "@/context/cartcontext";
 import { CashPaymentAction } from "@/paymentAction/cashpayment";
 import { onlinePaymentAction } from "@/paymentAction/onlinePayment";
 import { useRouter } from "next/navigation";
-import React, { useContext, useRef } from "react";
+import React, { useRef } from "react";
 import { toast } from "sonner";
+import { useCartContext } from "@/context/cartcontext";
 
 const Payment = () => {
-  const { cardId, afterPayment } = useContext(CartContext);
+  // const { cardId, afterPayment } = useContext(CartContext);
+  const { cardId, afterPayment } = useCartContext();
   const router = useRouter();
-  const details = useRef("");
-  const phone = useRef("");
-  const city = useRef("");
+  // const details = useRef("");
+  // const phone = useRef("");
+  // const city = useRef("");
+  const details = useRef<HTMLInputElement>(null);
+  const phone = useRef<HTMLInputElement>(null);
+  const city = useRef<HTMLInputElement>(null);
 
   async function cashpayment() {
     const values = {
       shippingAddress: {
-        details: details.current.value,
-        phone: phone.current.value,
-        city: city.current.value,
+        // details: details.current.value,
+        // phone: phone.current.value,
+        // city: city.current.value,
+        details: details.current?.value || "",
+        phone: phone.current?.value || "",
+        city: city.current?.value || "",
       },
     };
     try {
@@ -43,9 +50,12 @@ const Payment = () => {
   async function onlinePayment() {
     const values = {
       shippingAddress: {
-        details: details.current.value,
-        phone: phone.current.value,
-        city: city.current.value,
+        // details: details.current.value,
+        // phone: phone.current.value,
+        // city: city.current.value,
+        details: details.current?.value || "",
+        phone: phone.current?.value || "",
+        city: city.current?.value || "",
       },
     };
     try {
