@@ -51,10 +51,9 @@ const Login = () => {
         position: "top-center",
         duration: 1500,
         style: { background: "#22c55e", color: "#fff" },
+        // هنا نعمل تحديث لكل الـ server components زي Navbar
+        onAutoClose: () => router.refresh(),
       });
-
-      // forced refresh للصفحة الحالية عشان أي component بيعتمد على session يتحدث
-      router.replace(window.location.pathname);
     }
   }
 
