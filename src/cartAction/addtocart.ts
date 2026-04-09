@@ -8,6 +8,7 @@ import { headers } from "next/headers"
 export async function AddToCartAction(id: string) {
 
     const token = await getMyToken()
+    console.log("Token before request:", token)
     const values = {
         productId: id,
     }
