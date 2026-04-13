@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -20,6 +20,7 @@ import Link from "next/link";
 
 const Login = () => {
   const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<LoginSchemaType>({
     defaultValues: {
@@ -30,30 +31,41 @@ const Login = () => {
   });
 
   async function handleSubmit(values: LoginSchemaType) {
-    const res = await signIn("credentials", {
-      email: values.email,
-      password: values.password,
-      redirect: false,
-      callbackUrl: "/",
-    });
-    console.log(res);
+    try {
+      setIsSubmitting(true);
 
-    if (res?.error) {
-      toast.error(res.error, {
-        position: "top-center",
-        duration: 1000,
-        style: { background: "#ef4444", color: "#fff" },
+      const res = await signIn("credentials", {
+        email: values.email,
+        password: values.password,
+        redirect: false,
+        callbackUrl: "/",
       });
-    }
 
-    if (res?.ok) {
-      toast.success("Login Success", {
-        position: "top-center",
-        duration: 1500,
-        style: { background: "#22c55e", color: "#fff" },
+      console.log(res);
+
+      if (res?.error) {
+        toast.error(res.error, {
+          position: "top-center",
+          duration: 1000,
+          style: { background: "#ef4444", color: "#fff" },
+        });
+        return;
+      }
+
+      if (res?.ok) {
+        toast.success("Login Success", {
+          position: "top-center",
+          duration: 1000,
+          style: { background: "#22c55e", color: "#fff" },
+        });
+
+        router.push("/");
+
         // هنا نعمل تحديث لكل الـ server components زي Navbar
-        onAutoClose: () => router.refresh(),
-      });
+        router.refresh();
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
@@ -95,11 +107,18 @@ const Login = () => {
           />
 
           <div className="flex justify-end">
-            <button
+            {/* <button
               type="submit"
               className="bg-lime-600 text-white py-2 px-4 rounded hover:bg-lime-800 cursor-pointer"
             >
               Login
+            </button> */}
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="bg-lime-600 text-white py-2 px-4 rounded hover:bg-lime-800 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              {isSubmitting ? "Loading..." : "Login"}
             </button>
           </div>
         </form>

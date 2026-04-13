@@ -2,6 +2,13 @@
 @import "tw-animate-css";
 /* 
 ---break--- */
+
+
+
+
+
+
+
 @custom-variant dark (&:is(.dark *));
 .font-heading {
   font-family: "Miranda Sans", sans-serif;

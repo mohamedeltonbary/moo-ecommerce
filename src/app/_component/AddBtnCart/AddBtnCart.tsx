@@ -91,7 +91,7 @@ const AddBtnCart = ({ id }: { id: string }) => {
     <div>
       <button
         onClick={handleAddToCart}
-        className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition cursor-pointer"
+        className="bg-green-600   text-white px-7 py-2 rounded-md hover:bg-green-700 transition cursor-pointer"
       >
         Add to Cart
       </button>

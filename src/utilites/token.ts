@@ -1,25 +1,28 @@
-    // "use server"
+// "use server"
 
-    // import { cookies } from "next/headers";
-    // import { decode } from "next-auth/jwt"; // ← بدل punycode
+// import { cookies } from "next/headers";
+// import { decode } from "next-auth/jwt"; // ← بدل punycode
 
-    // export async function getMyToken() {
-    //     const x = (await cookies()).get("next-auth.session-token")?.value
-    //     const token = await decode({
-    //         token: x,
-    //         secret: process.env.NEXTAUTH_SECRET!
-    //     })
-    //     return token?.token 
-    // }
+// export async function getMyToken() {
+//     const x = (await cookies()).get("next-auth.session-token")?.value
+//     const token = await decode({
+//         token: x,
+//         secret: process.env.NEXTAUTH_SECRET!
+//     })
+//     return token?.token
+// }
 
-    "use server";
+// انا عدلت لى دا لان فيرسيل بيقرا بطريقه تانيه ف انا هخزن الاتنين
+
+
+"use server";
 
 import { cookies } from "next/headers";
 import { decode } from "next-auth/jwt";
 
 export async function getMyToken() {
   const cookieStore = await cookies();
-
+// بدل ما نقرأ اسم كوكي واحد فقط، خلّينا الكود يدعم الاسمين
   const rawToken =
     cookieStore.get("__Secure-next-auth.session-token")?.value ||
     cookieStore.get("next-auth.session-token")?.value;
