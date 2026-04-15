@@ -64,7 +64,7 @@ export default function ResetPasswordPage() {
           onChange={(e) => setNewPassword(e.target.value)}
           required
         />
-        <button className="bg-purple-600 text-white px-6 py-2 rounded-md w-72 hover:bg-purple-700 transition cursor-pointer">
+        <button className="bg-blue-600 text-white px-6 py-2 rounded-md w-72 hover:bg-blue-700 transition cursor-pointer">
           تغيير كلمة المرور
         </button>
       </form>

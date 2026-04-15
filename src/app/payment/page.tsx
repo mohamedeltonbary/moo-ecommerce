@@ -1,29 +1,43 @@
-"use client";
+'use client';
+
 import { Button } from "@/components/ui/button";
 import { CashPaymentAction } from "@/paymentAction/cashpayment";
 import { onlinePaymentAction } from "@/paymentAction/onlinePayment";
 import { useRouter } from "next/navigation";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { toast } from "sonner";
 import { useCartContext } from "@/context/cartcontext";
 
 const Payment = () => {
-  // const { cardId, afterPayment } = useContext(CartContext);
   const { cardId, afterPayment } = useCartContext();
   const router = useRouter();
-  // const details = useRef("");
-  // const phone = useRef("");
-  // const city = useRef("");
+
+  // Refs for the form fields
   const details = useRef<HTMLInputElement>(null);
   const phone = useRef<HTMLInputElement>(null);
   const city = useRef<HTMLInputElement>(null);
 
+  // State to check if the form is valid
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  // Function to check if all required fields are filled
+  const checkFormValidity = () => {
+    const isValid =
+      details.current?.value !== "" &&
+      phone.current?.value !== "" &&
+      city.current?.value !== "";
+    setIsFormValid(isValid);
+  };
+
+  // Handle change to check validity
+  const handleChange = () => {
+    checkFormValidity();
+  };
+
+  // Cash payment function
   async function cashpayment() {
     const values = {
       shippingAddress: {
-        // details: details.current.value,
-        // phone: phone.current.value,
-        // city: city.current.value,
         details: details.current?.value || "",
         phone: phone.current?.value || "",
         city: city.current?.value || "",
@@ -47,12 +61,11 @@ const Payment = () => {
     }
     console.log(values);
   }
+
+  // Online payment function
   async function onlinePayment() {
     const values = {
       shippingAddress: {
-        // details: details.current.value,
-        // phone: phone.current.value,
-        // city: city.current.value,
         details: details.current?.value || "",
         phone: phone.current?.value || "",
         city: city.current?.value || "",
@@ -64,12 +77,6 @@ const Payment = () => {
       if (data.status === "success") {
         window.location.href = data.session.url;
       }
-      // toast.success(data.status, {
-      //     position: "top-center",
-      //     duration: 1000
-      // })
-      // afterPayment()
-      // router.push("/allorder")
     } catch (error) {
       console.log("Payment failed");
     }
@@ -91,6 +98,7 @@ const Payment = () => {
           type="text"
           id="details"
           placeholder="Enter address details"
+          onChange={handleChange} // Trigger validity check on change
           className="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
         />
       </div>
@@ -104,6 +112,7 @@ const Payment = () => {
           type="tel"
           id="phone"
           placeholder="Enter phone number"
+          onChange={handleChange} // Trigger validity check on change
           className="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
         />
       </div>
@@ -117,6 +126,7 @@ const Payment = () => {
           type="text"
           id="city"
           placeholder="Enter city"
+          onChange={handleChange} // Trigger validity check on change
           className="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
         />
       </div>
@@ -124,13 +134,14 @@ const Payment = () => {
       <div className="flex justify-between">
         <Button
           onClick={cashpayment}
-          className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg"
+          className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg cursor-pointer"
+          disabled={!isFormValid}  // Disable button if form is not valid
         >
           Cash Payment
         </Button>
         <Button
           onClick={onlinePayment}
-          className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg"
+          className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg cursor-pointer"
         >
           Online Payment
         </Button>
