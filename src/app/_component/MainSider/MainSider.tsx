@@ -27,7 +27,7 @@ const MainSider = () => {
 
                 </div>
                 {/* الجزء اللى ع الشمال */}
-                <div className='w-2/3 '>
+                <div className='w-2/3 cursor-pointer '>
                     <Swiper 
                         spaceBetween={0}
                         slidesPerView={1}

@@ -1,6 +1,11 @@
 // import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 // import Image from "next/image";
 // import Categories from './categories/page';
+
+
+
+
+
 import getallproduct from "@/apis/allproduct";
 import HomeCard from "./_component/HomeCard/HomeCard";
 
@@ -23,3 +28,7 @@ export default async function Home() {
     </>
   );
 }
+
+
+
+

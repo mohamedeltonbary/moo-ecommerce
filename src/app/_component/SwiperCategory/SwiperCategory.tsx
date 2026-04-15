@@ -25,6 +25,7 @@ const SwiperCategory = ({ categories }:{categories:Category[]}) => {
                 onSlideChange={() => console.log('slide change')}
                 onSwiper={(swiper) => console.log(swiper)}
                 loop={true}
+                
             >
 
                 {categories.map((category, idx) => 
