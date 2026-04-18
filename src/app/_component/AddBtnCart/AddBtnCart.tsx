@@ -89,11 +89,16 @@ const AddBtnCart = ({ id }: { id: string }) => {
 
   return (
     <div>
-      <button
+      {/* <button
         onClick={handleAddToCart}
         className="bg-green-600   text-white px-7 py-2 rounded-md hover:bg-green-700 transition cursor-pointer"
       >
-        Add to Cart
+        <i className="fa-solid fa-cart-shopping text-[18px]"></i> Add to Cart
+      </button> */}
+
+      <button onClick={handleAddToCart} className="w-full flex items-center justify-center gap-2 bg-emerald-600 text-white py-2.5 rounded-xl text-sm font-semibold hover:bg-emerald-700 active:scale-95 transition-all shadow-sm hover:shadow-md cursor-pointer">
+        <i className="fa-solid fa-cart-shopping"></i>
+        <span>Add to Cart</span>
       </button>
     </div>
   );

@@ -7,25 +7,21 @@ const AllOrder = async () => {
   // نفترض أن getuserorder راجع كائن فيه data من نوع Orders
   // const response: { data: Orders } = await getuserorder();
   // const orders: Orders = response.data;
-const orders: Orders = await getuserorder();
+  const orders: Orders = await getuserorder();
 
-if (!orders || orders.length === 0) {
-  return <div className="text-center mt-10">No orders found</div>;
-}
+  if (!orders || orders.length === 0) {
+    return <div className="text-center mt-10">No orders found</div>;
+  }
 
   console.log("orders array:", orders);
 
   return (
     <div className="md:w-[80%] mx-auto p-5">
-      <h1
-        className="text-3xl mb-6 text-center  pb-2"
-        style={{
-          color: "rgb(79, 167, 79)",
-          fontFamily: "Segoe UI Semibold, sans-serif",
-          fontWeight: 600, // Semibold
-        }}
-      >
-        All Orders
+      <h1 className="relative text-3xl md:text-4xl font-extrabold text-center text-slate-800 mb-12">
+        <span className="relative inline-block">
+          All Orders
+          <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-12 h-1.5 bg-emerald-500 rounded-full"></span>
+        </span>
       </h1>
       <div className="space-y-8">
         {orders.map((order: Order, idx: number) => (

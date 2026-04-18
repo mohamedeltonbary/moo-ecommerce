@@ -12,14 +12,14 @@ import { toast } from "sonner";
 import Link from "next/link";
 
 const Cart = () => {
-const {
-  isloading,
-  products,
-  totalCartPrice,
-  removeCartItem,
-  updateCArt,
-  clearCart,
-} = useCartContext();
+  const {
+    isloading,
+    products,
+    totalCartPrice,
+    removeCartItem,
+    updateCArt,
+    clearCart,
+  } = useCartContext();
 
   async function removeItem(id: string) {
     const data = await removeCartItem(id);
@@ -115,81 +115,106 @@ const {
   }
 
   return (
-    <div className="w-full md:w-[80%] mx-auto my-10 bg-slate-100 gap-2">
-      <div className="p-5">
-        <h1 className="font-bold">Shop Cart</h1>
-        <p className="text-emerald-500 my-2">Total Price : {totalCartPrice}</p>
+    <div className="min-h-screen bg-gray-50 py-12">
+      <div className="max-w-4xl mx-auto px-4">
+        <div className="bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100">
+          {/* Header */}
+          <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-white">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-800">
+                Shopping Cart
+              </h1>
+              <p className="text-gray-500 text-sm">
+                You have {products.length} items
+              </p>
+            </div>
+            <div className="text-right">
+              <p className="text-sm text-gray-500 uppercase tracking-wider">
+                Total Price
+              </p>
+              <p className="text-2xl font-black text-emerald-600">
+                {totalCartPrice} EGP
+              </p>
+            </div>
+          </div>
 
-        <div className="flex justify-between mb-4">
-          <Button
-            onClick={clearCart}
-            className="bg-red-500 hover:bg-red-600 text-white cursor-pointer"
-          >
-            Clear Cart
-          </Button>
-
-          <Button className="bg-emerald-500 hover:bg-emerald-600 text-white cursor-pointer">
-            <Link href="/payment">Payment</Link>
-          </Button>
-        </div>
-
-        <div className="allproducts">
-          {products.map((product: ProductCart, idx: number) => (
-            <div
-              key={idx}
-              className="flex items-center justify-between py-3 border-b-[1px] border-green-700"
+          {/* Actions */}
+          <div className="p-4 bg-gray-50/50 flex justify-between gap-4">
+            <Button
+              onClick={clearCart}
+              variant="ghost"
+              className="text-red-500 hover:text-red-600 hover:bg-red-50 cursor-pointer"
             >
-              <div className="flex items-center gap-5">
-                <div>
+              Clear Cart
+            </Button>
+            <Button className="bg-emerald-500 hover:bg-emerald-600 px-8">
+              <Link href="/payment">
+              Checkout Now</Link>
+            </Button>
+          </div>
+
+          {/* Product List */}
+          <div className="divide-y divide-gray-100">
+            {products.map((product: ProductCart, idx: number) => (
+              <div
+                key={idx}
+                className="p-6 flex flex-col sm:flex-row items-center gap-6 hover:bg-gray-50/50 transition-colors"
+              >
+                {/* Image */}
+                <div className="w-24 h-24 flex-shrink-0 bg-gray-100 rounded-lg overflow-hidden border border-gray-100">
                   <Image
-                    alt=""
+                    alt={product.product.title}
                     src={product.product.imageCover}
-                    height={200}
-                    width={200}
+                    height={100}
+                    width={100}
+                    className="w-full h-full object-cover"
                   />
                 </div>
 
-                <div>
-                  <h1>{product.product.title}</h1>
-                  <p className="my-3 text-green-600">{product.price} EGP</p>
-
-                  <Button
+                {/* Info */}
+                <div className="flex-grow text-center sm:text-left">
+                  <h3 className="font-semibold text-gray-800 line-clamp-1">
+                    {product.product.title}
+                  </h3>
+                  <p className="text-emerald-600 font-bold mt-1">
+                    {product.price} EGP
+                  </p>
+                  <button
                     onClick={() => removeItem(product.product.id)}
-                    variant="outline"
-                    className="border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 hover:text-red-700 cursor-pointer"
+                    className=" mt-2 text-sm text-red-400 hover:text-red-600 font-medium flex items-center gap-1 transition-all cursor-pointer"
                   >
+                    <i className="fa-regular fa-trash-can text-xs"></i>
                     Remove
+                  </button>
+                </div>
+
+                {/* Quantity Controls */}
+                <div className="flex items-center bg-gray-100 rounded-full p-1 border border-gray-200 ">
+                  <Button
+                    variant="ghost"
+                    className="w-8 h-8 rounded-full p-0 hover:bg-white shadow-none cursor-pointer"
+                    onClick={() =>
+                      updateCartItem(product.product.id, product.count - 1)
+                    }
+                  >
+                    -
+                  </Button>
+                  <span className="w-10 text-center font-bold text-sm">
+                    {product.count}
+                  </span>
+                  <Button
+                    variant="ghost"
+                    className="w-8 h-8 rounded-full p-0 hover:bg-white shadow-none cursor-pointer"
+                    onClick={() =>
+                      updateCartItem(product.product.id, product.count + 1)
+                    }
+                  >
+                    +
                   </Button>
                 </div>
               </div>
-
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  className="w-8 h-8 p-0 text-lg font-bold cursor-pointer"
-                  onClick={() =>
-                    updateCartItem(product.product.id, product.count - 1)
-                  }
-                >
-                  -
-                </Button>
-
-                <span className="min-w-6 text-center font-medium">
-                  {product.count}
-                </span>
-
-                <Button
-                  variant="outline"
-                  className="w-8 h-8 p-0 text-lg font-bold cursor-pointer"
-                  onClick={() =>
-                    updateCartItem(product.product.id, product.count + 1)
-                  }
-                >
-                  +
-                </Button>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>

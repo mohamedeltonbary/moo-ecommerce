@@ -1,27 +1,23 @@
 // src/pages/brands.tsx
-import getAllBrands from '@/apis/allbrands';
-import Image from 'next/image';
+import getAllBrands from "@/apis/allbrands";
+import Image from "next/image";
 
 // نوع مؤقت للبراندات
 type Brand = {
   name: string;
   image: string;
 };
- 
+
 const BrandsPage = async () => {
   const brands: Brand[] = await getAllBrands();
 
   return (
     <div className="md:w-[80%] mx-auto p-5">
-      <h1
-        className="text-3xl mb-6 text-center  pb-2"
-        style={{
-          color: "rgb(79, 167, 79)",
-          fontFamily: "Segoe UI Semibold, sans-serif",
-          fontWeight: 600, // Semibold
-        }}
-      >
-        All Brands
+      <h1 className="relative text-3xl md:text-4xl font-extrabold text-center text-slate-800 mb-12">
+        <span className="relative inline-block">
+          All Brands
+          <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-12 h-1.5 bg-emerald-500 rounded-full"></span>
+        </span>
       </h1>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
         {brands.map((brand: Brand, idx: number) => (

@@ -7,7 +7,6 @@ import {
   FormItem,
   FormLabel,
   FormControl,
-  FormDescription,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -41,27 +40,23 @@ const Login = () => {
         callbackUrl: "/",
       });
 
-      console.log(res);
-
       if (res?.error) {
         toast.error(res.error, {
           position: "top-center",
-          duration: 1000,
+          duration: 2000,
           style: { background: "#ef4444", color: "#fff" },
         });
         return;
       }
 
       if (res?.ok) {
-        toast.success("Login Success", {
+        toast.success("Welcome Back!", {
           position: "top-center",
-          duration: 1000,
-          style: { background: "#22c55e", color: "#fff" },
+          duration: 2000,
+          style: { background: "#10b981", color: "#fff" },
         });
 
         router.push("/");
-
-        // هنا نعمل تحديث لكل الـ server components زي Navbar
         router.refresh();
       }
     } finally {
@@ -70,64 +65,93 @@ const Login = () => {
   }
 
   return (
-    <div className="w-full md:w-[80%] mx-auto my-10 p-6 bg-white rounded-md shadow-lg">
-      <h1 className="text-2xl font-bold text-lime-600 tracking-tight mb-6">
-        Login Now:
-      </h1>
+    <div className="min-h-[80vh] flex items-center justify-center py-12 px-4 bg-slate-50/50">
+      <div className="w-full max-w-[500px] bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/60 p-8 md:p-12 border border-slate-100">
+        
+        {/* Header */}
+        <div className="mb-10 text-center md:text-left">
+          <h1 className="text-3xl font-black text-slate-800 tracking-tight mb-2">
+            Welcome <span className="text-emerald-600">Back</span>
+          </h1>
+          <p className="text-slate-500 font-medium">Please enter your details to login</p>
+        </div>
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input type="email" placeholder="" {...field} />
-                </FormControl>
-                <FormDescription></FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input type="password" placeholder="" {...field} />
-                </FormControl>
-                <FormDescription></FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+            
+            {/* Email Field */}
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-bold text-slate-700 ml-1">Email Address</FormLabel>
+                  <FormControl>
+                    <Input 
+                      type="email" 
+                      placeholder="name@example.com" 
+                      {...field} 
+                      className="h-12 rounded-2xl border-slate-200 focus:border-emerald-500 transition-all shadow-sm"
+                    />
+                  </FormControl>
+                  <FormMessage className="text-xs ml-1" />
+                </FormItem>
+              )}
+            />
 
-          <div className="flex justify-end">
-            {/* <button
-              type="submit"
-              className="bg-lime-600 text-white py-2 px-4 rounded hover:bg-lime-800 cursor-pointer"
-            >
-              Login
-            </button> */}
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="bg-lime-600 text-white py-2 px-4 rounded hover:bg-lime-800 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
-            >
-              {isSubmitting ? "Loading..." : "Login"}
-            </button>
-          </div>
-        </form>
-      </Form>
+            {/* Password Field */}
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="flex justify-between items-center ml-1">
+                    <FormLabel className="font-bold text-slate-700">Password</FormLabel>
+                    <Link href="/forgot-password"  className="text-xs font-bold text-emerald-600 hover:text-emerald-700">
+                       Forgot?
+                    </Link>
+                  </div>
+                  <FormControl>
+                    <Input 
+                      type="password" 
+                      placeholder="••••••••" 
+                      {...field} 
+                      className="h-12 rounded-2xl border-slate-200 focus:border-emerald-500 transition-all shadow-sm"
+                    />
+                  </FormControl>
+                  <FormMessage className="text-xs ml-1" />
+                </FormItem>
+              )}
+            />
 
-      <div className="text-center mt-4">
-        <Link href="/forgot-password" className="text-blue-600 hover:underline">
-          Forgot your password?
-        </Link>
+            <div className="pt-4">
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-emerald-600 text-white py-4 rounded-2xl font-bold text-lg hover:bg-emerald-700 shadow-lg shadow-emerald-100 transition-all duration-300 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
+              >
+                {isSubmitting ? (
+                  <>
+                    <i className="fa-solid fa-spinner animate-spin"></i>
+                    Signing in...
+                  </>
+                ) : (
+                  "Login"
+                )}
+              </button>
+            </div>
+
+            <p className="text-center text-slate-500 text-sm font-medium mt-6">
+              Don&apos;t have an account?{" "}
+              <Link
+                href="/register"
+                className="text-emerald-600 font-bold hover:underline underline-offset-4 "
+              >
+                Create Account
+              </Link>
+            </p>
+          </form>
+        </Form>
       </div>
     </div>
   );

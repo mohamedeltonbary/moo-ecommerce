@@ -70,8 +70,8 @@ export default function VerifyCodePage() {
         />
         <button
           disabled={loading}
-          className={`bg-green-600 text-white px-6 py-2 rounded-md w-72 transition 
-          ${loading ? "opacity-50 cursor-not-allowed" : "hover:bg-green-700 cursor-pointer"}`}
+          className={`bg-emerald-600  text-white px-6 py-2 rounded-md w-72 transition 
+          ${loading ? "opacity-50 cursor-not-allowed" : " hover:bg-emerald-700 cursor-pointer"}`}
         >
           {loading ? "جاري التحقق..." : "تأكيد"}
         </button>

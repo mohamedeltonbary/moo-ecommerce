@@ -6,6 +6,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import { Toaster } from "sonner";
 import Providers from "./../provider";
 import Footer from "./Footer/Footer";
+import TopBar from "./_component/TopBar/TopBar";
 
 
 
@@ -37,6 +38,7 @@ export default function RootLayout({
       >
         <Providers>
           <Toaster />
+          <TopBar/>
           <Navbar />
           {children}
           <Footer/>
